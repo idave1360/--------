@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>구구단 계산기</title>
+</head>
+<body>
+    <h1>구구단 계산기</h1>
+    <label for="dan">단을 입력하세요:</label>
+    <input type="number" id="dan" min="1" max="9">
+    <button onclick="calculateGugudan()">계산</button>
+    <div id="result"></div>
+
+    <script>
+        function calculateGugudan() {
+            const dan = document.getElementById("dan").value;
+            const resultDiv = document.getElementById("result");
+
+            // 결과 영역 초기화
+            resultDiv.innerHTML = '';
+
+            if (dan < 1 || dan > 9 || isNaN(dan)) {
+                resultDiv.innerHTML = '1부터 9까지의 숫자를 입력해주세요.';
+                return;
+            }
+
+            // 구구단 결과 생성 및 표시
+            let resultHtml = `<h2>${dan}단 결과</h2>`;
+            for (let i = 1; i <= 9; i++) {
+                // 콘솔에도 출력
+                console.log(`${dan} * ${i} = ${dan * i}`);
+                resultHtml += `<p>${dan} * ${i} = ${dan * i}</p>`;
+            }
+
+            resultDiv.innerHTML = resultHtml;
+        }
+    </script>
+</body>
+</html>
