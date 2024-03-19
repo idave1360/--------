@@ -6,14 +6,14 @@
 <title>카운트다운 타이머</title>
 <style>
   body, html {
-    height: 100%;
+    height: 100vh; /* 화면 전체 높이를 커버 */
     margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    transition: background-color 1s;
   }
   #timer {
     font-size: 5rem;
@@ -50,9 +50,16 @@ function startTimer(minutes) {
   interval = setInterval(function() {
     const now = new Date();
     const distance = endTime - now;
+    
+    // When timer is less than 10 seconds
+    if (distance < 10000) {
+      const alpha = (10000 - distance) / 10000;
+      document.body.style.backgroundColor = `rgba(255, 0, 0, ${alpha})`;
+    }
+
     if (distance < 0) {
       clearInterval(interval);
-      document.body.style.backgroundColor = "red";
+      document.body.style.backgroundColor = "rgba(255, 0, 0, 1)"; // Full red color
       alert("타이머가 끝났습니다!");
       document.body.style.backgroundColor = "";
       document.getElementById('timer').textContent = "00:00";
