@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가위 바위 보 게임</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+  }
+  .game-header {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .game-controls {
+    display: flex;
+    gap: 10px;
+  }
+  .game-button {
+    font-size: 2rem;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="game-header">컴퓨터가 가위 바위 보를 선택하고 있습니다...</div>
+<div class="game-controls">
+  <button class="game-button" onclick="playGame('가위')">✌️ 가위</button>
+  <button class="game-button" onclick="playGame('바위')">✊ 바위</button>
+  <button class="game-button" onclick="playGame('보')">✋ 보</button>
+</div>
+
+<script>
+function playGame(userChoice) {
+  const choices = ['가위', '바위', '보'];
+  const computerChoice = choices[Math.floor(Math.random() * 3)];
+  const resultMessage = `컴퓨터 선택: ${computerChoice}\n당신의 선택: ${userChoice}\n`;
+
+  let result;
+  if (userChoice === computerChoice) {
+    result = '비겼습니다!';
+  } else if (
+    (userChoice === '가위' && computerChoice === '보') ||
+    (userChoice === '바위' && computerChoice === '가위') ||
+    (userChoice === '보' && computerChoice === '바위')
+  ) {
+    result = '이겼습니다!';
+  } else {
+    result = '졌습니다!';
+  }
+
+  alert(resultMessage + result);
+}
+</script>
+</body>
+</html>

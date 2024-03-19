@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Screen Hello World</title>
+<style>
+  body, html {
+    height: 100%; 
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    text-align: center;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 25vw; /* Adjusted to a larger viewport width percentage */
+    font-size: calc(5vh + 5vw); /* Combine viewport height and width */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+</style>
+</head>
+<body>
+<h1>Hello World</

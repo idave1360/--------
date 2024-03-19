@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이벤트 관리자</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+  }
+  #event-input-container {
+    display: flex;
+  }
+  #event-text {
+    padding: 10px;
+    font-size: 1rem;
+    margin-right: 5px;
+  }
+  #add-event-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap; /* Prevents the button text from wrapping */
+  }
+  #add-event-button:hover {
+    background-color: #ccc;
+  }
+  .event-button {
+    width: 100%; /* Makes button width same as input */
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left; /* Aligns text to the left */
+  }
+  .completed {
+    text-decoration: line-through;
+  }
+</style>
+</head>
+<body>
+  <div id="event-input-container">
+    <input type="text" id="event-text" placeholder="이벤트를 입력하세요" />
+    <button id="add-event-button" onclick="addEvent()">이벤트 추가</button>
+  </div>
+  <div id="events"></div>
+
+<script>
+function addEvent() {
+  const eventText = document.getElementById('event-text').value.trim();
+  if (eventText === '') {
+    alert('텍스트를 입력해 주세요.');
+    return;
+  }
+  
+  const button = document.createElement('button');
+  button.textContent = eventText;
+  button.classList.add('event-button');
+  button.onclick = function() {
+    if (this.classList.contains('completed')) {
+      this.remove(); // Removes the button from the DOM
+    } else {
+      this.classList.add('completed');
+    }
+  };
+
+  document.getElementById('events').appendChild(button);
+  document.getElementById('event-text').value = ''; // Clear input field
+}
+
+document.getElementById('event-text').addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') {
+    addEvent();
+  }
+});
+
+</script>
+</body>
+</html>
