@@ -1,99 +1,68 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>고급 계산기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 계산기</title>
     <style>
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            max-width: 300px;
         }
-        .result-box {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+        .button {
+            padding: 20px;
+            font-size: 20px;
+            cursor: pointer;
         }
-        .result-label {
-            margin-right: 10px;
-        }
-        .result-value {
-            border: 1px solid #ccc;
-            padding: 10px;
-            min-width: 100px;
+        .display {
+            grid-column: span 4;
+            background-color: #f2f2f2;
+            padding: 20px;
             text-align: right;
-        }
-        .operation-buttons {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 220px;
+            font-size: 25px;
             margin-bottom: 10px;
-        }
-        button {
-            padding: 5px 10px;
-        }
-        input[type="number"] {
-            margin-bottom: 10px;
-            padding: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="result-box">
-            <span class="result-label">지금까지의 결과값:</span>
-            <div class="result-value" id="result">0</div>
-            <button onclick="resetResult()">초기화</button>
-        </div>
-        <input type="number" id="inputValue" placeholder="입력값">
-        <div class="operation-buttons">
-            <button onclick="performOperation('+')">+</button>
-            <button onclick="performOperation('-')">-</button>
-            <button onclick="performOperation('*')">*</button>
-            <button onclick="performOperation('/')">/</button>
-        </div>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <button class="button" onclick="press('1')">1</button>
+        <button class="button" onclick="press('2')">2</button>
+        <button class="button" onclick="press('3')">3</button>
+        <button class="button" onclick="press('+')">+</button>
+        <button class="button" onclick="press('4')">4</button>
+        <button class="button" onclick="press('5')">5</button>
+        <button class="button" onclick="press('6')">6</button>
+        <button class="button" onclick="press('-')">-</button>
+        <button class="button" onclick="press('7')">7</button>
+        <button class="button" onclick="press('8')">8</button>
+        <button class="button" onclick="press('9')">9</button>
+        <button class="button" onclick="press('*')">*</button>
+        <button class="button" onclick="press('0')">0</button>
+        <button class="button" onclick="press('.')">.</button>
+        <button class="button" onclick="calculate()">=</button>
+        <button class="button" onclick="press('/')">/</button>
     </div>
 
     <script>
-        let currentResult = 0;
+        let currentInput = '';
 
-        function updateDisplay() {
-            document.getElementById('result').textContent = currentResult;
+        function press(value) {
+            currentInput += value;
+            document.getElementById('display').innerText = currentInput;
         }
 
-        function resetResult() {
-            currentResult = 0;
-            updateDisplay();
-        }
-
-        function performOperation(operation) {
-            const inputValue = parseFloat(document.getElementById('inputValue').value);
-            if (isNaN(inputValue)) {
-                alert('유효한 숫자를 입력해주세요.');
-                return;
+        function calculate() {
+            try {
+                currentInput = eval(currentInput).toString();
+                document.getElementById('display').innerText = currentInput;
+            } catch(e) {
+                document.getElementById('display').innerText = 'Error';
+                currentInput = '';
             }
-
-            switch (operation) {
-                case '+':
-                    currentResult += inputValue;
-                    break;
-                case '-':
-                    currentResult -= inputValue;
-                    break;
-                case '*':
-                    currentResult *= inputValue;
-                    break;
-                case '/':
-                    if (inputValue === 0) {
-                        alert('0으로 나눌 수 없습니다.');
-                        return;
-                    }
-                    currentResult /= inputValue;
-                    break;
-            }
-            updateDisplay();
         }
     </script>
 </body>
