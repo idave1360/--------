@@ -3,152 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <title>계산기</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s;
         }
         .calculator {
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 20px;
-            background-color: #fff;
+            border: 1px solid #ccc;
             border-radius: 8px;
+            overflow: hidden;
         }
         .display {
-            border: 1px solid #ccc;
             padding: 10px;
-            margin-bottom: 20px;
+            background: #f0f0f0;
             text-align: right;
-            border-radius: 4px;
-            min-width: 240px;
+            font-size: 2rem;
         }
         .buttons {
             display: grid;
             grid-template-columns: repeat(4, 60px);
             gap: 10px;
+            padding: 10px;
+            background: #e0e0e0;
         }
         button {
             padding: 10px;
             border-radius: 4px;
             border: none;
-            background-color: #f0f0f0;
+            background-color: #d0d0d0;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #e2e2e2;
+            background-color: #c0c0c0;
         }
-        button:active {
-            background-color: #d4d4d4;
+        .dark-mode {
+            background-color: #333;
+            color: white;
         }
+        .dark-mode button {
+            background-color: #555;
+        }
+        .dark-mode button:hover {
+            background-color: #666;
+        }
+        .history {
+            margin-top: 10px;
+            max-height: 100px;
+            overflow-y: auto;
+            width: 240px;
+        }
+        .history-item {
+            cursor: pointer;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .history-item:hover {
+            background-color: #f0f0f0;
+        }
+
     </style>
 </head>
 <body>
     <div class="calculator">
         <div id="display" class="display">0</div>
         <div class="buttons">
-            <button onclick="appendNumber('7')">7</button>
-            <button onclick="appendNumber('8')">8</button>
-            <button onclick="appendNumber('9')">9</button>
+            <button onclick="appendCharacter('7')">7</button>
+            <button onclick="appendCharacter('8')">8</button>
+            <button onclick="appendCharacter('9')">9</button>
             <button onclick="setOperation('/')">/</button>
-            <button onclick="appendNumber('4')">4</button>
-            <button onclick="appendNumber('5')">5</button>
-            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendCharacter('4')">4</button>
+            <button onclick="appendCharacter('5')">5</button>
+            <button onclick="appendCharacter('6')">6</button>
             <button onclick="setOperation('*')">*</button>
-            <button onclick="appendNumber('1')">1</button>
-            <button onclick="appendNumber('2')">2</button>
-            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendCharacter('1')">1</button>
+            <button onclick="appendCharacter('2')">2</button>
+            <button onclick="appendCharacter('3')">3</button>
             <button onclick="setOperation('-')">-</button>
-            <button onclick="appendNumber('0')">0</button>
-            <button onclick="appendNumber('.')">.</button>
-            <button onclick="backspace()">←</button>
+            <button onclick="appendCharacter('0')">0</button>
+            <button onclick="appendCharacter('.')">.</button>
+            <button onclick="clearDisplay()">C</button>
             <button onclick="setOperation('+')">+</button>
-            <button onclick="calculateResult()" style="grid-column: span 4;">=</button>
+            <button onclick="calculateResult()">=</button>
+            <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
         </div>
     </div>
-    <script>
-        let currentInput = "";
-        let operation = null;
-        let previousInput = "";
+    <div class="history" id="history"></div>
 
-        function appendNumber(number) {
-            if (currentInput.includes(".") && number === ".") return; // Prevent multiple dots
-            currentInput += number;
+    <script>
+        let displayValue = "0";
+        let darkMode = false;
+
+        function updateDisplay() {
+            document.getElementById('display').textContent = displayValue;
+        }
+
+        function appendCharacter(character) {
+            if (displayValue === "0") {
+                displayValue = character;
+            } else {
+                displayValue += character;
+            }
             updateDisplay();
         }
 
-        function setOperation(op) {
-            if (currentInput === "" && op === "-") { // Allow negative numbers
-                appendNumber(op);
-                return;
-            }
-            if (previousInput !== "") {
-                calculateResult();
-            }
-            operation = op;
-            previousInput = currentInput;
-            currentInput = "";
-        }
-
-        function calculateResult() {
-            if (operation && previousInput !== "" && currentInput !== "") {
-                switch (operation) {
-                    case '+':
-                        currentInput = String(parseFloat(previousInput) + parseFloat(currentInput));
-                        break;
-                    case '-':
-                        currentInput = String(parseFloat(previousInput) - parseFloat(currentInput));
-                        break;
-                    case '*':
-                        currentInput = String(parseFloat(previousInput) * parseFloat(currentInput));
-                        break;
-                    case '/':
-                        if (currentInput === "0") {
-                            alert("Cannot divide by zero");
-                            currentInput = "";
-                            operation = null;
-                            previousInput = "";
-                            updateDisplay();
-                            return;
-                        }
-                        currentInput = String(parseFloat(previousInput) / parseFloat(currentInput));
-                        break;
-                }
-                previousInput = "";
-                operation = null;
+        function setOperation(operation) {
+            if (!displayValue.includes(operation)) {
+                displayValue += operation;
                 updateDisplay();
             }
         }
 
         function clearDisplay() {
-            currentInput = "";
-            operation = null;
-            previousInput = "";
+            displayValue = "0";
             updateDisplay();
         }
 
-        function backspace() {
-            currentInput = currentInput.slice(0, -1);
-            updateDisplay();
+        function calculateResult() {
+            try {
+                displayValue = eval(displayValue).toString();
+                updateDisplay();
+            } catch (e) {
+                displayValue = "Error";
+                updateDisplay();
+            }
         }
 
-        function updateDisplay() {
-            document.getElementById('display').textContent = currentInput || "0";
+        // 야간 모드 추가
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            if (darkMode) {
+                document.body.classList.add("dark-mode");
+            } else {
+                document.body.classList.remove("dark-mode");
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.calculator').addEventListener('keydown', (e) => {
-                if ((e.key >= 0 && e.key <= 9) || e.key === '.') appendNumber(e.key);
-                if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') setOperation(e.key);
-                if (e.key === 'Enter' || e.key === '=') calculateResult();
-                if (e.key === 'Backspace') backspace();
-                if (e.key === 'Escape') clearDisplay();
+        let history = [];
+
+        function updateHistory() {
+            const historyElement = document.getElementById('history');
+            historyElement.innerHTML = ''; // Clear current history
+            history.forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.textContent = `${entry.expression} = ${entry.result}`;
+                item.className = 'history-item';
+                item.onclick = () => loadHistory(index);
+                historyElement.appendChild(item);
             });
+        }
+
+        function addToHistory(expression, result) {
+            history.push({ expression, result });
+            updateHistory();
+        }
+
+        function loadHistory(index) {
+            const { expression, result } = history[index];
+            displayValue = result.toString();
+            updateDisplay();
+        }
+
+        function calculateResult() {
+            try {
+                const result = eval(displayValue);
+                addToHistory(displayValue, result);
+                displayValue = result.toString();
+                updateDisplay();
+            } catch (e) {
+                displayValue = "Error";
+                updateDisplay();
+            }
+        }
+
+        // 키보드 지원 확장
+        document.addEventListener('keydown', (e) => {
+            if ((e.key >= 0 && e.key <= 9) || e.key === '.') appendCharacter(e.key);
+            if (['+', '-', '*', '/'].includes(e.key)) setOperation(e.key);
+            if (e.key === 'Enter' || e.key === '=') calculateResult();
+            if (e.key === 'Backspace') clearDisplay();
+            if (e.key === 'Escape') clearDisplay();
         });
+
+        // 초기 화면 로딩 시 히스토리 업데이트
+        document.addEventListener('DOMContentLoaded', updateHistory);
     </script>
 </body>
 </html>
