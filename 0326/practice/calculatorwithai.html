@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>고급 계산기</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .result-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .result-label {
+            margin-right: 10px;
+        }
+        .result-value {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-width: 100px;
+            text-align: right;
+        }
+        .operation-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 220px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        input[type="number"] {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="result-box">
+            <span class="result-label">지금까지의 결과값:</span>
+            <div class="result-value" id="result">0</div>
+            <button onclick="resetResult()">초기화</button>
+        </div>
+        <input type="number" id="inputValue" placeholder="입력값">
+        <div class="operation-buttons">
+            <button onclick="performOperation('+')">+</button>
+            <button onclick="performOperation('-')">-</button>
+            <button onclick="performOperation('*')">*</button>
+            <button onclick="performOperation('/')">/</button>
+        </div>
+    </div>
+
+    <script>
+        let currentResult = 0;
+
+        function updateDisplay() {
+            document.getElementById('result').textContent = currentResult;
+        }
+
+        function resetResult() {
+            currentResult = 0;
+            updateDisplay();
+        }
+
+        function performOperation(operation) {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            if (isNaN(inputValue)) {
+                alert('유효한 숫자를 입력해주세요.');
+                return;
+            }
+
+            switch (operation) {
+                case '+':
+                    currentResult += inputValue;
+                    break;
+                case '-':
+                    currentResult -= inputValue;
+                    break;
+                case '*':
+                    currentResult *= inputValue;
+                    break;
+                case '/':
+                    if (inputValue === 0) {
+                        alert('0으로 나눌 수 없습니다.');
+                        return;
+                    }
+                    currentResult /= inputValue;
+                    break;
+            }
+            updateDisplay();
+        }
+    </script>
+</body>
+</html>
