@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+#todo-app h1 {
+    margin: 0 0 20px 0;
+}
+
+#todo-form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#todo-form input[type="text"],
+#todo-form input[type="date"] {
+    padding: 10px;
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+#todo-list li {
+    list-style-type: none;
+    margin-top: 10px;
+    background-color: #f3f3f3;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#todo-list li .text {
+    flex-grow: 1;
+}
+
+.completed .text {
+    text-decoration: line-through;
+    color: #999;
+}
+
+button {
+    padding: 5px 10px;
+    margin-left: 10px;
+}
+
+.completed button {
+    text-decoration: none;
+    color: inherit; /* 버튼에 대한 색상 변경과 취소선 적용을 방지 */
+}
