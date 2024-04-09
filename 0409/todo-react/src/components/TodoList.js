@@ -81,6 +81,13 @@ const TodoList = () => {
           />
         ))}
       </ul>
+      {/* 할 일 목록이 비어있을 때 표시할 이미지 */}
+      {todos.length === 0 && (
+        <div style={{ textAlign: 'center' }}>
+          <img src="empty-list-image.png" alt="Empty list" style={{ width: '50%', height: 'auto' }} />
+          <p style={{ fontSize: '1.5em' }}>할 일이 없습니다.</p>
+        </div>
+      )}
     </div>
   );
 };
