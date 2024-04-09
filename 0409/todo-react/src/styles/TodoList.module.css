@@ -62,3 +62,7 @@ button.addButton:hover {
   color: #fff;
   border-color: #0056b3;
 }
+
+button.addButton.deleteAll {
+  margin-left: 10px;
+}

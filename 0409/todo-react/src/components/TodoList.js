@@ -55,6 +55,11 @@ const TodoList = () => {
     );
   };
 
+  // deleteAllTodos 함수는 모든 할 일을 목록에서 삭제하는 함수입니다.
+  const deleteAllTodos = () => {
+    setTodos([]);
+  };
+
   // 컴포넌트를 렌더링합니다.
   return (
     <div className={styles.container}>
@@ -69,6 +74,10 @@ const TodoList = () => {
       {/* 할 일을 추가하는 버튼입니다. */}
       <button className={styles.addButton} onClick={addTodo}>
         Add Todo
+      </button>
+      {/* 모든 할 일을 삭제하는 버튼입니다. */}
+      <button className={`${styles.addButton} ${styles.deleteAll}`} onClick={deleteAllTodos}>
+        Delete All
       </button>
       {/* 할 일 목록을 렌더링합니다. */}
       <ul>
